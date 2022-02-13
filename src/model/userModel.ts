@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize/types";
+import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/connect";
 
 class User extends Model {
@@ -7,10 +7,6 @@ class User extends Model {
   public lastName!: string;
   public emailAddress!: string;
   public password!: string;
-
-  //Timestamps
-  public readonly updatedAt!: Date;
-  public readonly createdAt!: Date;
 }
 
 User.init(

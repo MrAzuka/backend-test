@@ -1,27 +1,47 @@
-// import bcrypt from "bcrypt";
-// import jwt, { JwtPayload } from "jsonwebtoken";
-// import { jwtExpiresIn, jwtSecret, bcryptSalt } from "../../config";
+import bcrypt from "bcrypt";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { jwtExpiresIn, jwtSecret, bcryptSalt } from "../../config";
+import User from "../../model/userModel";
 
-// export const generateHashedValue = (value: string): string => {
-//   return bcrypt.hashSync(value, bcryptSalt);
-// };
+export const generateHashedValue = (value: string): string => {
+  return bcrypt.hashSync(value, bcryptSalt);
+};
 
-// export const checkValidity = (value: string, compareValue: string): boolean => {
-//   return bcrypt.compareSync(value, compareValue);
-// };
+export const checkValidity = (value: string, compareValue: string): boolean => {
+  return bcrypt.compareSync(value, compareValue);
+};
 
-// export interface IJWToken {
-//   token: string;
-//   expiresAt: number;
-// }
+export interface IJWToken {
+  token: string;
+  expiresAt: number;
+}
 
-// export const createAccessToken = (id: string): IJWToken => {
-//   const token: string = jwt.sign({ id }, jwtSecret, {
-//     expiresIn: jwtExpiresIn
-//   });
+export const createAccessToken = (id: number): IJWToken => {
+  const _id = `${id}`;
+  const token: string = jwt.sign({ _id }, jwtSecret, {
+    expiresIn: jwtExpiresIn
+  });
 
-//   const expiresAt: number =
-//     (jwt.verify(token, jwtSecret) as JwtPayload).exp || Date.now();
+  const expiresAt: number =
+    (jwt.verify(token, jwtSecret) as JwtPayload).exp || Date.now();
 
-//   return { token, expiresAt };
-// };
+  return { token, expiresAt };
+};
+
+interface IBasicUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+}
+
+export const getBasicUserDetails = (user: User): IBasicUser => {
+  const { id, firstName, lastName, emailAddress } = user;
+
+  return {
+    id,
+    firstName,
+    lastName,
+    emailAddress
+  };
+};

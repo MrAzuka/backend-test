@@ -11,5 +11,8 @@ declare namespace NodeJS {
     JWT_SECRET: string;
     JWT_EXPIRES_IN: string;
     BCRYPT_SALT: string;
+    AWS_ACCESS_ID: string;
+    AWS_ACCESS_KEY: string;
+    AWS_BUCKET_NAME: string;
   }
 }

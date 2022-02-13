@@ -10,3 +10,6 @@ export const dbPassword = process.env.DB_PASSWORD || "";
 export const jwtSecret = process.env.JWT_SECRET || "";
 export const jwtExpiresIn = Number(process.env.JWT_EXPIRES_IN) || "";
 export const bcryptSalt = Number(process.env.BCRYPT_SALT) || "";
+export const awsID = process.env.AWS_ACCESS_ID || "";
+export const awsKey = process.env.AWS_ACCESS_KEY || "";
+export const awsBucket = process.env.AWS_BUCKET_NAME || "";

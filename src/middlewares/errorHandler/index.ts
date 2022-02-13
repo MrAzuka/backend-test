@@ -5,7 +5,7 @@ import { errorResponse } from "../../utils/responses";
 import ApiError from "./ApiError";
 import { nodeEnv } from "../../config";
 import { JsonWebTokenError } from "jsonwebtoken";
-import { UniqueConstraintError } from "sequelize/types";
+import { UniqueConstraintError } from "sequelize";
 // import { UploadFile } from "../../types/global";
 
 const errorHandler = (
