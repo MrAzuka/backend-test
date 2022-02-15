@@ -15,6 +15,7 @@ const login = async (
 ): Promise<void> => {
   const { emailAddress, password } = req.body;
   try {
+    logger.info(formatLog(req, "START: Registering a user"));
     const user = await User.findOne({
       where: { emailAddress: emailAddress }
     });
