@@ -6,6 +6,7 @@ import router from "./routes";
 import errorHandler from "./middlewares/errorHandler";
 import notFound from "./middlewares/notFound";
 import cookieParser from "cookie-parser";
+import cronJobs from "./cronJobs";
 
 const app = express();
 
@@ -33,6 +34,8 @@ const server = app.listen(port, () => {
   ###########################################
   Server is currently running at port ${port}
   ###########################################`);
+
+  cronJobs.start();
 });
 
 export default server;
