@@ -1,14 +1,14 @@
 import Joi from "joi";
-import { email, firstName, lastName, password } from "./globalSchemas";
+import { emailAddress, firstName, lastName, password } from "./globalSchemas";
 
 export const signupValidator = Joi.object({
-  email,
+  emailAddress,
   firstName,
   lastName,
   password
 });
 
 export const loginValidator = Joi.object({
-  email,
+  emailAddress,
   password
 });

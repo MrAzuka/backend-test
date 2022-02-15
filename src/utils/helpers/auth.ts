@@ -32,16 +32,18 @@ interface IBasicUser {
   id: number;
   firstName: string;
   lastName: string;
+  role: string;
   emailAddress: string;
 }
 
 export const getBasicUserDetails = (user: User): IBasicUser => {
-  const { id, firstName, lastName, emailAddress } = user;
+  const { id, firstName, role, lastName, emailAddress } = user;
 
   return {
     id,
     firstName,
     lastName,
+    role,
     emailAddress
   };
 };

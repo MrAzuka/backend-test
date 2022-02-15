@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const email = Joi.string().required().email().messages({
+export const emailAddress = Joi.string().required().email().messages({
   "string.email": "Email address is invalid",
   "any.required": "Email address is required"
 });

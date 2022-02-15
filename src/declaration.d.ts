@@ -14,5 +14,6 @@ declare namespace NodeJS {
     AWS_ACCESS_ID: string;
     AWS_ACCESS_KEY: string;
     AWS_BUCKET_NAME: string;
+    CRON_JOB_SCHEDULE: string;
   }
 }

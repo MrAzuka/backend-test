@@ -1,59 +1,60 @@
-// import { NextFunction, Request, Response } from "express";
-// import jwt, { JwtPayload } from "jsonwebtoken";
-// import { jwtSecret } from "../../config";
-// import User, { IUser } from "../../model/userModel";
-// import { JWTData } from "../../types/global";
-// import ApiError from "../errorHandler/ApiError";
+import { NextFunction, Request, Response } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { jwtSecret } from "../../config";
+import User from "../../model/userModel";
+import { JWTData } from "../../types/global";
+import ApiError from "../errorHandler/ApiError";
 
-// const requiresSignIn = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ): Promise<void> => {
-//   try {
-//     const authHeader: string = req.headers["authorization"] || "";
-//     if (!authHeader) {
-//       //continue if participant id is used for auth
-//       if (req.body.participantId) return next();
+const requiresSignIn = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const authHeader: string = req.headers["authorization"] || "";
+    if (!authHeader) {
+      //continue if participant id is used for auth
+      if (req.body.participantId) return next();
 
-//       return next(new ApiError(401, "No token provided"));
-//     }
+      return next(new ApiError(401, "No token provided"));
+    }
 
-//     const token: string = authHeader.replace("Bearer ", "");
+    const token: string = authHeader.replace("Bearer ", "");
 
-//     //verify JWT
-//     const decoded: string | JwtPayload = jwt.verify(token, jwtSecret);
-//     const userId = (decoded as JWTData).id;
+    //verify JWT
+    const decoded: string | JwtPayload = jwt.verify(token, jwtSecret);
+    console.log(decoded);
+    const userId = (decoded as JWTData)._id;
 
-//     if (!userId) return next(new ApiError(403, "Invalid token provided"));
+    if (!userId) return next(new ApiError(403, "Invalid token provided"));
 
-//     //save userid in request body for use in routes
-//     req.body.userId = userId;
+    //save userid in request body for use in routes
+    req.body.userId = userId;
 
-//     //save user object in body if user isn't banned/deleted
-//     const user = await checkForUser(userId, next);
-//     req.body.user = user;
-//     res.locals.user = user;
+    //save user object in body if user isn't banned/deleted
+    const user = await checkForUser(Number(userId), next);
+    req.body.user = user;
+    res.locals.user = user;
 
-//     next();
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
 
-// const checkForUser = async (
-//   userId: string,
-//   next: NextFunction
-// ): Promise<void | IUser> => {
-//   try {
-//     const user: IUser = await User.findById(userId).select("+password").lean();
+const checkForUser = async (
+  userId: number,
+  next: NextFunction
+): Promise<void | User> => {
+  try {
+    const user = await User.findOne({ where: { id: userId } });
 
-//     if (!user) return next(ApiError.badRequest("User not found"));
+    if (!user) return next(ApiError.badRequest("User not found"));
 
-//     return user;
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    return user;
+  } catch (err) {
+    next(err);
+  }
+};
 
-// export default requiresSignIn;
+export default requiresSignIn;
