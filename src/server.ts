@@ -35,7 +35,7 @@ const server = app.listen(port, () => {
   Server is currently running at port ${port}
   ###########################################`);
 
-  cronJobs.start();
+  // cronJobs.start();
 });
 
 export default server;
