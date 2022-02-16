@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import { port } from "./config/index";
 import logger from "./utils/logger";
 import { connectToDB } from "./database/connect";
@@ -9,9 +10,6 @@ import cookieParser from "cookie-parser";
 import cronJobs from "./cronJobs";
 
 const app = express();
-
-// connectToDB();
-connectToDB();
 
 app.use(
   express.urlencoded({
@@ -29,13 +27,17 @@ app.use("*", notFound);
 
 app.use(errorHandler);
 
-const server = app.listen(port, () => {
-  logger.info(`
-  ###########################################
-  Server is currently running at port ${port}
-  ###########################################`);
+const server = http.createServer(app);
 
-  // cronJobs.start();
-});
-
-export default server;
+const startServer = async (): Promise<void> => {
+  await connectToDB();
+  server.listen(port, () => {
+    logger.info(`
+    ###########################################
+    Server is currently running at port ${port}
+    ###########################################`);
+  });
+};
+startServer();
+cronJobs.start();
+export { startServer };

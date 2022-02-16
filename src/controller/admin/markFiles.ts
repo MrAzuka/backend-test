@@ -12,17 +12,17 @@ const markFiles = async (
 ): Promise<void> => {
   try {
     logger.info(formatLog(req, "Mark files as unsafe"));
-    const keys: string[] = req.body;
-    const files = await File.update(
+    const { keys } = req.body;
+    await File.update(
       { status: "unsafe" },
-      { where: { key: { [Op.in]: keys } } }
+      { where: { key: keys as string[] } }
     );
     logger.info(formatLog(req, "Successfully marked files as unsafe "));
     return successResponse(
       res,
       200,
       "Successfully marked files as unsafe",
-      files
+      null
     );
   } catch (err) {
     next(err);

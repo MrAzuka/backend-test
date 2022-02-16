@@ -12,7 +12,7 @@ const deleteFiles = async () => {
 const cronJobs = cron.schedule(cronJobSchedule, async () => {
   logger.info("Running cron jobs");
 
-  await deleteFiles;
+  await deleteFiles();
   logger.info("Cron jobs run successfully");
 });
 

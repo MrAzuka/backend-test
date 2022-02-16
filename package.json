@@ -9,7 +9,7 @@
     "dev": "nodemon",
     "format": "prettier --config .prettierrc src --write",
     "lint": "eslint . --ext .ts",
-    "test": "mocha dist --forceExit --timeout 10000"
+    "test": "mocha dist --forceExit --timeout 50000"
   },
   "repository": {
     "type": "git",
@@ -63,6 +63,7 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.5",
+    "@types/mocha": "^9.1.0",
     "@types/multer": "^1.4.7",
     "@types/multer-s3": "^2.7.10",
     "@types/node": "^16.9.1",

@@ -28,7 +28,7 @@ export const createAccessToken = (id: number): IJWToken => {
   return { token, expiresAt };
 };
 
-interface IBasicUser {
+export interface IBasicUser {
   id: number;
   firstName: string;
   lastName: string;
