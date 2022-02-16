@@ -1,17 +1,29 @@
 import { Sequelize } from "sequelize";
-import { dbName, dbPassword, dbUsername } from "../config";
+import {
+  dbName,
+  dbPassword,
+  dbUsername,
+  nodeEnv,
+  dbProductionName
+} from "../config";
 import logger from "../utils/logger";
 
 // export const sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
 //   host: "localhost",
 //   dialect: "postgres"
 // });
+let sequelize: Sequelize;
+if (nodeEnv === "development") {
+  sequelize = new Sequelize(
+    `postgres://${dbUsername}:${dbPassword}@127.0.0.1:5432/${dbName}`
+  );
+} else if (nodeEnv === "production") {
+  sequelize = new Sequelize(
+    `postgres://${dbUsername}:${dbPassword}@127.0.0.1:5432/${dbProductionName}`
+  );
+}
 
-export const sequelize = new Sequelize(
-  `postgres://${dbUsername}:${dbPassword}@127.0.0.1:5432/${dbName}`
-);
-
-export const connectToDB = async (): Promise<void> => {
+const connectToDB = async (): Promise<void> => {
   try {
     await sequelize.authenticate();
     await sequelize.sync();
@@ -20,3 +32,4 @@ export const connectToDB = async (): Promise<void> => {
     logger.error("Unable to connect to the database:", error);
   }
 };
+export { sequelize, connectToDB };

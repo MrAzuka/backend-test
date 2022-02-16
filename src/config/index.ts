@@ -14,3 +14,4 @@ export const awsID = process.env.AWS_ACCESS_ID || "";
 export const awsKey = process.env.AWS_ACCESS_KEY || "";
 export const awsBucket = process.env.AWS_BUCKET_NAME || "";
 export const cronJobSchedule = process.env.CRON_JOB_SCHEDULE || "";
+export const dbProductionName = process.env.DB_PRODUCTION_NAME || "";
