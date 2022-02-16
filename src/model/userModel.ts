@@ -1,4 +1,4 @@
-import { DataTypes, Model, Filterable, UpdateOptions } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/connect";
 
 class User extends Model {
