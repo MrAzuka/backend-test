@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { jwtExpiresIn, jwtSecret, bcryptSalt } from "../../config";
 import User from "../../model/userModel";
