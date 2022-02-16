@@ -40,4 +40,4 @@ const startServer = async (): Promise<void> => {
 };
 startServer();
 cronJobs.start();
-export { startServer };
+export { startServer, app };

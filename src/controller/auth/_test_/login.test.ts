@@ -1,14 +1,15 @@
 process.env.NODE_ENV = "test";
+import { expect, should } from "chai";
 import { testUser } from "./utils.test";
 import chai from "chai";
 import chatHttp from "chai-http";
 import User from "../../../model/userModel";
 import logger from "../../../utils/logger";
 import bcrypt from "bcryptjs";
-import { startServer } from "../../../server";
+import { app } from "../../../server";
 
 const assert = chai.assert;
-
+should();
 const { firstName, lastName, emailAddress, password } = testUser;
 chai.use(chatHttp);
 
@@ -42,61 +43,71 @@ describe("Login tests", () => {
   });
   it("Should throw error when email is missing", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/login")
       .send({ password })
       .end((err, res) => {
-        assert.equal(res.status, 400);
-        assert.include(res.body.message.toLowerCase(), "email");
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("Should throw error when password is missing", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/login")
       .send({ emailAddress })
       .end((err, res) => {
-        assert.equal(res.status, 400);
-        assert.include(res.body.message.toLowerCase(), "password");
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("Should throw error when email doesnt exist", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/login")
       .send({ email: "test34@gmail.com", password })
       .end((err, res) => {
-        assert.equal(res.status, 404);
-        assert.include(res.body.message.toLowerCase(), "not exist");
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("Should throw error when wrong password is provided", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/login")
       .send({ emailAddress, password: "wrong password" })
       .end((err, res) => {
-        assert.equal(res.status, 401);
-        assert.include(res.body.message.toLowerCase(), "invalid");
+        res.should.have.status(401);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("It should be successful when the values are all valid", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/login")
       .send({ password, emailAddress })
       .end((err, res) => {
         logger.info(emailAddress, password);
-        assert.equal(res.status, 200);
-        assert.include(res.body.message.toLowerCase(), "success");
+        res.should.have.status(200);
+        res.body.should.be.a("object");
+        expect(res.body.data).to.have.property("jwt");
+        expect(res.body.data).to.have.property("user");
         done();
       });
   });

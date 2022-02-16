@@ -1,14 +1,16 @@
 process.env.NODE_ENV = "test";
+import { expect, should } from "chai";
 import { testUser } from "./utils.test";
 import chai from "chai";
 import chatHttp from "chai-http";
-import { startServer } from "../../../server";
+import { app } from "../../../server";
 import User from "../../../model/userModel";
 import logger from "../../../utils/logger";
 
 const assert = chai.assert;
 const { firstName, lastName, emailAddress, password } = testUser;
 chai.use(chatHttp);
+should();
 
 describe("Sign up tests", () => {
   before(async () => {
@@ -31,55 +33,63 @@ describe("Sign up tests", () => {
   });
   it("Should throw error when email is missing", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/signup")
       .send({ firstName, lastName, password })
-      .end((err, res) => {
-        assert.equal(res.status, 400);
-        assert.include(res.body.message.toLowerCase(), "emailAddress");
+      .end((err, res: ChaiHttp.Response) => {
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("Should throw error when firstName is missing", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/signup")
       .send({ emailAddress, lastName, password })
       .end((err, res) => {
-        assert.equal(res.status, 400);
-        assert.include(res.body.message.toLowerCase(), "first name");
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("Should throw error when lastName is missing", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/signup")
       .send({ firstName, emailAddress, password })
       .end((err, res) => {
-        assert.equal(res.status, 400);
-        assert.include(res.body.message.toLowerCase(), "last name");
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("Should throw error when password is missing", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/signup")
       .send({ firstName, lastName, emailAddress })
       .end((err, res) => {
-        assert.equal(res.status, 400);
-        assert.include(res.body.message.toLowerCase(), "password");
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("Should throw error when invalid email is provided", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/signup")
       .send({
         firstName,
@@ -88,32 +98,41 @@ describe("Sign up tests", () => {
         emailAddress: "myemail.com"
       })
       .end((err, res) => {
-        assert.equal(res.status, 400);
-        assert.include(res.body.message.toLowerCase(), "email");
+        console.log(res.body);
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });
 
   it("It should be successful when the values are all valid", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/signup")
       .send(testUser)
       .end((err, res) => {
-        assert.equal(res.status, 201);
-        assert.include(res.body.message.toLowerCase(), "success");
+        res.should.have.status(201);
+        res.body.should.be.a("object");
+        expect(res.body.data).to.have.property("emailAddress");
+        expect(res.body.data).to.have.property("role");
+        expect(res.body.data).to.have.property("firstName");
+        expect(res.body.data).to.have.property("lastName");
         done();
       });
   });
 
   it("Should throw error when a duplicate email is provided", (done) => {
     chai
-      .request(startServer)
+      .request(app)
       .post("/api/v1/auth/signup")
       .send(testUser)
       .end((err, res) => {
-        assert.equal(res.status, 400);
-        assert.include(res.body.message.toLowerCase(), "email");
+        res.should.have.status(422);
+        res.body.should.be.a("object");
+        res.body.should.have.property("error");
+        expect(res.body.status).to.equal("error");
         done();
       });
   });

@@ -12,7 +12,7 @@ class ApiError {
   }
 
   static badRequest(message: string): ApiError {
-    return new ApiError(400, message);
+    return new ApiError(401, message);
   }
 
   static internalError(): ApiError {
