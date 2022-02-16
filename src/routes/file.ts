@@ -6,6 +6,9 @@ import downloadFile from "../controller/file/downloadFile";
 
 const fileRoutes: Router = express.Router();
 
+/**
+ * @routes Media Routes
+ */
 fileRoutes.post("/upload", requiresSignIn, upload.single("file"), uploadFile);
 fileRoutes.get("/download", requiresSignIn, downloadFile);
 

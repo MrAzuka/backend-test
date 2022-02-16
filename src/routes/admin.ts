@@ -8,6 +8,9 @@ import { adminValidator } from "../validators/adminValidator";
 
 const adminRoutes: Router = express.Router();
 
+/**
+ * @routes Admin Routes
+ */
 adminRoutes.use(requiresSignIn, requiresAdminOrClient("admin"));
 
 adminRoutes.put("/markFiles", joiMiddleware(adminValidator), markFiles);
