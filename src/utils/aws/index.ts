@@ -5,7 +5,6 @@ import multers3 from "multer-s3";
 import { awsBucket, awsID, awsKey } from "../../config";
 import logger from "../logger";
 import formatLog from "../logger/formatLog";
-import { successResponse } from "../responses";
 
 const s3 = new aws.S3({
   secretAccessKey: awsKey,

@@ -3,7 +3,6 @@ import logger from "../../utils/logger";
 import formatLog from "../../utils/logger/formatLog";
 import { successResponse } from "../../utils/responses";
 import File from "../../model/fileModel";
-import { Op } from "sequelize";
 
 const markFiles = async (
   req: Request,

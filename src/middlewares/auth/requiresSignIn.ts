@@ -23,7 +23,6 @@ const requiresSignIn = async (
 
     //verify JWT
     const decoded: string | JwtPayload = jwt.verify(token, jwtSecret);
-    console.log(decoded);
     const userId = (decoded as JWTData)._id;
 
     if (!userId) return next(new ApiError(403, "Invalid token provided"));
