@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/connect";
-
+import User from "./userModel";
 class File extends Model {
   public id!: number;
   public filename!: string;
@@ -45,5 +45,8 @@ File.init(
   },
   { sequelize }
 );
+//file and user association
+User.hasMany(File, { foreignKey: "userId" });
+File.belongsTo(User, { foreignKey: "userId" });
 
 export default File;
