@@ -7,7 +7,6 @@ import { app } from "../../../server";
 import User from "../../../model/userModel";
 import logger from "../../../utils/logger";
 
-const assert = chai.assert;
 const { firstName, lastName, emailAddress, password } = testUser;
 chai.use(chatHttp);
 should();
@@ -98,7 +97,6 @@ describe("Sign up tests", () => {
         emailAddress: "myemail.com"
       })
       .end((err, res) => {
-        console.log(res.body);
         res.should.have.status(422);
         res.body.should.be.a("object");
         res.body.should.have.property("error");

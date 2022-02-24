@@ -8,12 +8,14 @@ const deleteFiles = async () => {
   logger.info("Deleting unsafe files");
   const files = await File.findAll({ where: { status: "unsafe" } });
   const fileKeys = [];
-  for (const file of files) {
-    fileKeys.push({ Key: String(file) });
+  if (files.length > 0) {
+    for (const file of files) {
+      fileKeys.push({ Key: file.key });
+    }
+    deleteMultipleFiles(fileKeys);
+    await File.destroy({ where: { status: "unsafe" } });
+    logger.info("Successfully deleted all unsafe files");
   }
-  deleteMultipleFiles(fileKeys);
-  await File.destroy({ where: { status: "unsafe" } });
-  logger.info("Successfully deleted all unsafe files");
 };
 
 const cronJobs = cron.schedule(cronJobSchedule, async () => {
