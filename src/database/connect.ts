@@ -10,7 +10,8 @@ import logger from "../utils/logger";
 
 const sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
   host: "localhost",
-  dialect: "postgres"
+  dialect: "postgres",
+  port: 5432
 });
 // let sequelize: Sequelize;
 // if (nodeEnv === "development") {
