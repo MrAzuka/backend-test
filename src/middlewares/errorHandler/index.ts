@@ -63,7 +63,7 @@ const errorHandler = (
       for (const file of files) {
         filepaths.push({ Key: (file as UploadFile).key });
       }
-      deleteMultipleFiles(req, filepaths);
+      deleteMultipleFiles(filepaths);
     }
   }
 

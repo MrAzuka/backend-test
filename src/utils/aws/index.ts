@@ -116,26 +116,15 @@ export const downloadSingleFile = async (
 };
 
 export const deleteMultipleFiles = async (
-  req: Request,
   filepaths: { Key: string }[]
 ): Promise<void> => {
-  logger.info(
-    formatLog(
-      req,
-      `Deleting files with filepaths "${JSON.stringify(filepaths)}"`
-    )
-  );
+  logger.info(`Deleting files with filepaths "${JSON.stringify(filepaths)}"`);
 
   const params = { Bucket: awsBucket, Delete: { Objects: filepaths } };
 
   await s3.deleteObjects(params, (err) => {
     if (err) throw new Error(err.message);
     else
-      logger.info(
-        formatLog(
-          req,
-          `Deleted files with filepaths "${JSON.stringify(filepaths)}`
-        )
-      );
+      logger.info(`Deleted files with filepaths "${JSON.stringify(filepaths)}`);
   });
 };
