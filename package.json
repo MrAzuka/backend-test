@@ -23,7 +23,6 @@
   "homepage": "https://github.com/Lawal-create/backend-test#readme",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/cors": "^2.8.12",
     "@types/sequelize": "^4.28.11",
     "@types/validator": "^13.7.1",
     "bcryptjs": "^2.4.3",

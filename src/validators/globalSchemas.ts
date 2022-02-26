@@ -16,3 +16,8 @@ export const firstName = Joi.string().required().messages({
 export const lastName = Joi.string().required().messages({
   "any.required": "Last Name is required"
 });
+
+export const role = Joi.string().required().valid("user", "admin").messages({
+  "any.required": "Role is required",
+  "any.only": "Role must be user or admin"
+});

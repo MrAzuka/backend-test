@@ -10,13 +10,13 @@ const fetchAllFiles = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    logger.info(formatLog(req, "Mark files as unsafe"));
+    logger.info(formatLog(req, "Fetch All Files "));
     const files = await File.findAll();
-    logger.info(formatLog(req, "Successfully marked files as unsafe "));
+    logger.info(formatLog(req, "Successfully fetched all files as unsafe "));
     return successResponse(
       res,
       200,
-      "Successfully marked files as unsafe",
+      "Successfully fetched all files as unsafe",
       files
     );
   } catch (err) {

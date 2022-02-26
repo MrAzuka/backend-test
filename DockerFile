@@ -1,0 +1,18 @@
+# Use NodeJS base image
+FROM node:13
+
+# Create app directory in Docker
+WORKDIR /app
+
+# Copying file into APP directory of docker
+COPY . .
+
+# Install dependencies in Docker
+RUN yarn
+
+
+# Set the API’s port number
+EXPOSE 8080
+
+# Define Docker’s behavior when the image is run
+CMD yarn start
